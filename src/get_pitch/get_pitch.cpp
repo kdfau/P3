@@ -25,10 +25,16 @@ Usage:
     get_pitch --version
 
 Options:
+<<<<<<< HEAD
     -1 FLOAT, --thresh1 FLOAT  Umbral sonoro/sordo para rmaxnorm [default: 0.5]
+=======
+    -1 FLOAT, --pot_th FLOAT     Umbral potencia en dB [default: -20]
+    -2 FLOAT, --r1_th FLOAT    Umbral autocorrelación normalizada [default: 0.9]
+    -3 FLOAT, --rlag_th FLOAT  Umbral autocorrelación normalizada en pitch [default: 0.4] 
+>>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
     -h, --help  Show this screen
     --version   Show the version of the project
-
+    
 Arguments:
     input-wav   Wave file with the audio signal
     output-txt  Output file: ASCII file with the result of the detection:
@@ -47,7 +53,13 @@ int main(int argc, const char *argv[]) {
 
 	std::string input_wav = args["<input-wav>"].asString();
 	std::string output_txt = args["<output-txt>"].asString();
+<<<<<<< HEAD
   float thresh1 = atof(args["--thresh1"].asString().c_str());
+=======
+  float p = atof(args["--pot_th"].asString().c_str());
+  float r1 = atof(args["--r1_th"].asString().c_str());
+  float rlag = atof(args["--rlag_th"].asString().c_str());
+>>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
 
   // Read input sound file
   unsigned int rate;
@@ -61,8 +73,14 @@ int main(int argc, const char *argv[]) {
   int n_shift = rate * FRAME_SHIFT;
 
   // Define analyzer
+<<<<<<< HEAD
   PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500); //antes era Hamming
   analyzer.thresh1 = thresh1;
+=======
+  PitchAnalyzer analyzer(n_len, rate, p, r1, rlag, PitchAnalyzer::RECT, 50, 500); //antes era Hamming
+  //analyzer.thresh1 = thresh1; 
+
+>>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
