@@ -30,17 +30,17 @@ namespace upc {
     window.resize(frameLen);
 
     switch (win_type) {
-    case HAMMING:
-      /// \TODO Implement the Hamming window
-      
-      /*if( n >= 0 && n<N){
-        0.54 -0.46 * cos ((2*PI*n)/(N-1));
-      */
-      
-      
-    break;
-    case RECT:
-    default:
+      case HAMMING:
+        /// \TODO Implement the Hamming window
+        //float c0 = 0.54F;
+        //float c1 = 0.46F;
+        for(unsigned int i=0; i < frameLen; i++){
+         window[i] = 0.54 - 0.46 * cos (2*M_PI*i)/(frameLen - 1);
+        }
+      /// \DONE           
+      break;
+      case RECT:
+      default:
       window.assign(frameLen, 1);
     }
   }
@@ -62,12 +62,28 @@ namespace upc {
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones. 
     //Umbral autocorrelación. Otro criterio: potencia señal. Otro criterio: Voz sorda es de alta freq. El valor del máximo de autocorrelación a largo plazo. 
+    /*
     if(rmaxnorm > thresh1){
       return false;
     }
     else{
       return true;
     }
+   */  
+   /* int frame = 0;
+    float pot_init = 0;
+     if(frame == 0){  //definir: frame, p_init, p_th, r1_th, rlag_th
+      pot_init = pot; 
+      frame = 1; 
+      return true; 
+    } */
+    if(pot < pot_th || r1norm < r1_th || rmaxnorm < rlag_th){
+     return true; // Trama sorda
+    }
+   else {
+     return false; //trama sonora
+   }
+   
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -96,16 +112,16 @@ namespace upc {
       if(*iR > *iRMax){
         iRMax = iR;
       }
-
     }
     unsigned int lag = iRMax - r.begin();
 
     float pot = 10 * log10(r[0]);
 
+  /// \Done (clase)
     //You can print these (and other) features, look at them using wavesurfer
     //Based on that, implement a rule for unvoiced
     //change to #if 1 and compile
-#if 0
+#if 1
     if (r[0] > 0.0F)
       cout << pot << '\t' << r[1]/r[0] << '\t' << r[lag]/r[0] << endl;
 #endif

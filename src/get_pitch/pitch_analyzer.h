@@ -21,7 +21,7 @@ namespace upc {
 		RECT, 						///< Rectangular window
 		HAMMING						///< Hamming window
 	};
-  float thresh1;
+ // float thresh1;
     void set_window(Window type); ///< pre-compute window
 
   private:
@@ -30,6 +30,7 @@ namespace upc {
       samplingFreq, ///< sampling rate (in samples per second). Has to be set in the constructor call
       npitch_min, ///< minimum value of pitch period, in samples
       npitch_max; ///< maximum value of pitch period, in samples
+      float pot_th, r1_th, rlag_th; //Thresholds potencia, autocorrelación y lag.
  
 	///
 	/// Computes correlation from lag=0 to r.size()
@@ -49,14 +50,20 @@ namespace upc {
 
   public:
     PitchAnalyzer(	unsigned int fLen,			///< Frame length in samples
-					unsigned int sFreq,			///< Sampling rate in Hertzs
-					Window w=PitchAnalyzer::HAMMING,	///< Window type
+          unsigned int sFreq,	///< Sampling rate in Hertzs  
+          float p,
+          float r1,
+          float rlag,		    
+          Window w=PitchAnalyzer::HAMMING,	///< Window type 
 					float min_F0 = MIN_F0,		///< Pitch range should be restricted to be above this value
 					float max_F0 = MAX_F0		///< Pitch range should be restricted to be below this value
-				 )
+         )
 	{
       frameLen = fLen;
       samplingFreq = sFreq;
+      pot_th = p; //p
+      r1_th = r1;  //r1
+      rlag_th = rlag; //rlag
       set_f0_range(min_F0, max_F0);
       set_window(w);
     }
