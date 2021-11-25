@@ -21,11 +21,8 @@ namespace upc {
 		RECT, 						///< Rectangular window
 		HAMMING						///< Hamming window
 	};
-<<<<<<< HEAD
     float thresh1;
-=======
  // float thresh1;
->>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
     void set_window(Window type); ///< pre-compute window
 
   private:

@@ -11,19 +11,16 @@ namespace upc {
   void PitchAnalyzer::autocorrelation(const vector<float> &x, vector<float> &r) const {
 
     for (unsigned int l = 0; l < r.size(); ++l) {
-<<<<<<< HEAD
   		/// \TODO Compute the autocorrelation r[l] 
       /// \DONE autocorrelació d'una senyal real implementada
       r[1] = 0;
       for (unsigned int n = 0; n < x.size()-l; n++) {
         r[l] += x[n] * x[n+l];
-=======
   		/// \TODO Compute the autocorrelation r[l]
       /// \DONE Hem implementat l'autocorrelació d'un senyal real.
       r[l] = 0;
       for(unsigned int n = 0; n < x.size()-l; n++) {
         r[l] += x[n] * x[n+l];        
->>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
       }
     }
 
@@ -38,11 +35,6 @@ namespace upc {
     window.resize(frameLen);
 
     switch (win_type) {
-<<<<<<< HEAD
-    case HAMMING:
-      /// \TODO Implement the Hamming window
-
-=======
       case HAMMING:
         /// \TODO Implement the Hamming window
         //float c0 = 0.54F;
@@ -50,12 +42,11 @@ namespace upc {
         for(unsigned int i=0; i < frameLen; i++){
          window[i] = 0.54 - 0.46 * cos (2*M_PI*i)/(frameLen - 1);
         }
-      /// \DONE           
->>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
-      break;
+        /// \DONE           
+        break;
       case RECT:
       default:
-      window.assign(frameLen, 1);
+        window.assign(frameLen, 1);
     }
   }
 
@@ -74,23 +65,14 @@ namespace upc {
   bool PitchAnalyzer::unvoiced(float pot, float r1norm, float rmaxnorm) const {
     /// \TODO Implement a rule to decide whether the sound is voiced or not.  IMPORTANT
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
-<<<<<<< HEAD
     ///   or compute and use other ones.
     if (rmaxnorm > thresh1)
       return false;
     else
       return true;
-=======
     ///   or compute and use other ones. 
     //Umbral autocorrelación. Otro criterio: potencia señal. Otro criterio: Voz sorda es de alta freq. El valor del máximo de autocorrelación a largo plazo. 
-    /*
-    if(rmaxnorm > thresh1){
-      return false;
-    }
-    else{
-      return true;
-    }
-   */  
+
    /* int frame = 0;
     float pot_init = 0;
      if(frame == 0){  //definir: frame, p_init, p_th, r1_th, rlag_th
@@ -105,7 +87,6 @@ namespace upc {
      return false; //trama sonora
    }
    
->>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
   }
 
   float PitchAnalyzer::compute_pitch(vector<float> & x) const {
@@ -129,7 +110,6 @@ namespace upc {
 	  ///    - The first negative value of the autocorrelation.
 	  ///    - The lag corresponding to the maximum value of the pitch.
     ///	   .
-<<<<<<< HEAD
 	  /// In either case, the lag should not exceed that of the minimum value of the pitch.
 
     for (iR = r.begin() + npitch_min; iR < r.begin() + npitch_max; iR++){
@@ -138,14 +118,12 @@ namespace upc {
       }
     }
 
-=======
 	/// In either case, the lag should not exceed that of the minimum value of the pitch.
     for(iR = r.begin() + npitch_min ; iR < r.begin() + npitch_max; iR++){
       if(*iR > *iRMax){
         iRMax = iR;
       }
     }
->>>>>>> f1555fb34595932d3f80686a5399b37d9c6daa4d
     unsigned int lag = iRMax - r.begin();
 
     float pot = 10 * log10(r[0]);
@@ -154,7 +132,7 @@ namespace upc {
     //You can print these (and other) features, look at them using wavesurfer
     //Based on that, implement a rule for unvoiced
     //change to #if 1 and compile
-#if 1
+#if 0
     if (r[0] > 0.0F)
       cout << pot << '\t' << r[1]/r[0] << '\t' << r[lag]/r[0] << endl;
 #endif
