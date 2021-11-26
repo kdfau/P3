@@ -47,8 +47,8 @@ int main(int argc, const char *argv[]) {
         true,    // show help if requested
         "2.0");  // version string
 
-	std::string input_wav = args["<input-wav>"].asString();
-	std::string output_txt = args["<output-txt>"].asString();
+	  std::string input_wav = args["<input-wav>"].asString();
+	  std::string output_txt = args["<output-txt>"].asString();
   float p = atof(args["--pot_th"].asString().c_str());
   float r1 = atof(args["--r1_th"].asString().c_str());
   float rlag = atof(args["--rlag_th"].asString().c_str());
@@ -65,20 +65,22 @@ int main(int argc, const char *argv[]) {
   int n_shift = rate * FRAME_SHIFT;
 
   // Define analyzer
-  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::RECT, 50, 500); //antes era Hamming
-  analyzer.thresh1 = thresh1;
+  PitchAnalyzer analyzer(n_len, rate, PitchAnalyzer::HAMMING, 50, 500); 
+  
+  //analyzer.thresh1 = thresh1;
 
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
-
+  /// \DONE
   //Cental-clipping
   float max =* max_element(x.begin(), x.end());
+  float max1 = max * 0.3;
   for (int i = 0; i < x.size(); i++) {
-    if (x[i] > th)
-      x[i] = x[i] - th;
-    else if (x[i] < th)
-      x[i] = x[i] + th;
+    if (x[i] > max1)
+      x[i] = x[i] - max1;
+    else if (x[i] < max1)
+      x[i] = x[i] + max1;
     else 
       x[i] = 0;
   }
@@ -94,6 +96,23 @@ int main(int argc, const char *argv[]) {
   /// \TODO
   /// Postprocess the estimation in order to supress errors. For instance, a median filter
   /// or time-warping may be used.
+  /// \DONE
+
+  //Median Filter
+  float f1, f2, f3;
+  vector<float> aux(f0.size(), 0);
+  for (int i = 0; i < f0.size(); i++) {
+    f1 = f0[i - 1];
+    f2 = f0[i];
+    f3 = f0[i + 1];
+
+    if ((f1 > f2 && f1 < f3) || (f1 < f2 && f1 > f3))
+      aux[i] = f1;
+    if ((f2 > f1 && f2 < f3) || (f2 < f1 && f2 > f3))
+      aux[i] = f2;
+    if ((f3 > f1 && f3 < f2) || (f3 < f1 && f3 > f2))
+      aux[i] = f3;
+  }
 
   // Write f0 contour into the output file
   ofstream os(output_txt);
