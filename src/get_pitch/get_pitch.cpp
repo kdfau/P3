@@ -1,4 +1,3 @@
-
 /// @file
  
 #include <iostream>
@@ -72,7 +71,18 @@ int main(int argc, const char *argv[]) {
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
- 
+  /// \DONE
+  /// Central clipping
+  float maximo = *max_element(x.begin(), x.end());
+  
+  #if 1
+    for(int i=0; i<(int)x.size(); ++i){
+      if((abs(x[i]) / maximo ) < 0.001){
+        x[i]=0.0F;
+    }
+  }
+  #endif
+
   // Iterate for each frame and save values in f0 vector
   vector<float>::iterator iX;
   vector<float> f0;
@@ -84,7 +94,17 @@ int main(int argc, const char *argv[]) {
   /// \TODO
   /// Postprocess the estimation in order to supress errors. For instance, a median filter
   /// or time-warping may be used.
- 
+  /// \DONE
+  /// Median Filter
+  #if 0 //Per compilar només si està definit => evitem errors al executar el run_get_pitch
+    int win_median = 3;
+    for (long unsigned int i = 0; i < f0.size(); i += win_median){
+      for (long unsigned int j = 0; j < f0.size(); ++j)
+        f0[i+j] = f0[i + (win_median -1) / 2];
+    }
+  #endif
+
+
   // Write f0 contour into the output file
   ofstream os(output_txt);
   if (!os.good()) {
@@ -99,5 +119,3 @@ int main(int argc, const char *argv[]) {
  
   return 0;
 }
- 
-

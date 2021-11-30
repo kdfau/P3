@@ -12,7 +12,7 @@ namespace upc {
  
     for (unsigned int l = 0; l < r.size(); ++l) {
       /// \TODO Compute the autocorrelation r[l]
-      /// \DONE Hem implementat l'autocorrelació d'un senyal real.
+      /// \DONE Hem implementat l'autocorrelació d'una senyal real.
       r[l] = 0;
       for(unsigned int n = 0; n < x.size()-l; n++) {
         r[l] += x[n] * x[n+l];        
@@ -41,7 +41,7 @@ namespace upc {
       break;
       case RECT:
       default:
-      window.assign(frameLen, 1);
+        window.assign(frameLen, 1);
     }
   }
  
@@ -78,11 +78,11 @@ namespace upc {
       return true;
     } */
     if(pot < pot_th || r1norm < r1_th || rmaxnorm < rlag_th){
-     return true; // Trama sorda
+      return true; // Trama sorda
     }
-   else {
-     return false; //trama sonora
-   }
+    else {
+      return false; //trama sonora
+    }
    
   }
  
@@ -101,31 +101,41 @@ namespace upc {
  
     vector<float>::const_iterator iR = r.begin(), iRMax = iR + npitch_min;
  
-    /// \TODO
+  /// \TODO
   /// Find the lag of the maximum value of the autocorrelation away from the origin.<br>
   /// Choices to set the minimum value of the lag are:
   ///    - The first negative value of the autocorrelation.
   ///    - The lag corresponding to the maximum value of the pitch.
-    ///    .
+  ///    .
   /// In either case, the lag should not exceed that of the minimum value of the pitch.
-    for(iR = r.begin() + npitch_min ; iR < r.begin() + npitch_max; iR++){
+  /// \Done
+    while(*iR > 0){
+      ++iR;
+    }
+    if (iR<r.begin() + npitch_min)
+      iR += npitch_min;
+    iRMax = iR;
+    while(iR != r.end()){
+      if(*iR > *iRMax)
+        iRMax = iR;
+      ++iR;
+    }
+    /*for(iR = r.begin() + npitch_min ; iR < r.begin() + npitch_max; iR++){
       if(*iR > *iRMax){
         iRMax = iR;
       }
-    }
+    } */
     unsigned int lag = iRMax - r.begin();
  
     float pot = 10 * log10(r[0]);
- 
-  /// \Done (clase)
-    //You can print these (and other) features, look at them using wavesurfer
-    //Based on that, implement a rule for unvoiced
-    //change to #if 1 and compile
-#if 1
+
+  //You can print these (and other) features, look at them using wavesurfer
+  //Based on that, implement a rule for unvoiced
+  //change to #if 1 and compile
+  #if 1
     if (r[0] > 0.0F)
       cout << pot << '\t' << r[1]/r[0] << '\t' << r[lag]/r[0] << endl;
-#endif
-   
+  #endif
     if (unvoiced(pot, r[1]/r[0], r[lag]/r[0]))
       return 0;
     else
