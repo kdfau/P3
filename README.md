@@ -58,6 +58,8 @@ Ejercicios básicos
 	    Recuerde configurar los paneles de datos para que el desplazamiento de ventana sea el adecuado, que
 		en esta práctica es de 15 ms.
 		
+		![Captura_wavesurfer1](https://user-images.githubusercontent.com/91891272/144306993-2ab8e81a-ba18-4e8b-889a-f7b525ddcd4a.PNG)
+
 		En la primera(empezando por arriba) vemos la potencia de la señal, en la segunda vemos la autocorrelación
 		normalizada, es decir, r[1]/r[0], y en la tercera vemos la autocorrelación en su máximo secundario, es decir, 
 		r[lag]/r[0], finalmente vemos la señal. 
