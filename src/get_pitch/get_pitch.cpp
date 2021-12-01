@@ -71,13 +71,12 @@ int main(int argc, const char *argv[]) {
   /// \TODO
   /// Preprocess the input signal in order to ease pitch estimation. For instance,
   /// central-clipping or low pass filtering may be used.
-  /// \DONE
-  /// Central clipping
+  /// \DONE Central clipping
   float maximo = *max_element(x.begin(), x.end());
   
   #if 1
     for(int i=0; i<(int)x.size(); ++i){
-      if((abs(x[i]) / maximo ) < 0.001){
+      if((abs(x[i]) / maximo ) < 0.009){
         x[i]=0.0F;
     }
   }
@@ -94,8 +93,7 @@ int main(int argc, const char *argv[]) {
   /// \TODO
   /// Postprocess the estimation in order to supress errors. For instance, a median filter
   /// or time-warping may be used.
-  /// \DONE
-  /// Median Filter
+  /// \DONE Median Filter
   #if 0 //Per compilar només si està definit => evitem errors al executar el run_get_pitch
     int win_median = 3;
     for (long unsigned int i = 0; i < f0.size(); i += win_median){

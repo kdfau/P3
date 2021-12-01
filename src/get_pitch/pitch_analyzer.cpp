@@ -32,12 +32,12 @@ namespace upc {
     switch (win_type) {
       case HAMMING:
         /// \TODO Implement the Hamming window
+        /// \DONE Finestra de Hamming implementada
         //float c0 = 0.54F;
         //float c1 = 0.46F;
         for(unsigned int i=0; i < frameLen; i++){
          window[i] = 0.54 - 0.46 * cos (2*M_PI*i)/(frameLen - 1);
-        }
-      /// \DONE          
+        }         
       break;
       case RECT:
       default:
@@ -62,15 +62,9 @@ namespace upc {
     /// * You can use the standard features (pot, r1norm, rmaxnorm),
     ///   or compute and use other ones.
     //Umbral autocorrelación. Otro criterio: potencia señal. Otro criterio: Voz sorda es de alta freq. El valor del máximo de autocorrelación a largo plazo.
-    /*
-    if(rmaxnorm > thresh1){
-      return false;
-    }
-    else{
-      return true;
-    }
-   */  
-   /* int frame = 0;
+    /// \DONE Amb els paràmetres estàndard
+    /* Menys prob 
+    int frame = 0;
     float pot_init = 0;
      if(frame == 0){  //definir: frame, p_init, p_th, r1_th, rlag_th
       pot_init = pot;
@@ -109,6 +103,7 @@ namespace upc {
   ///    .
   /// In either case, the lag should not exceed that of the minimum value of the pitch.
   /// \Done
+    
     while(*iR > 0){
       ++iR;
     }
@@ -120,11 +115,14 @@ namespace upc {
         iRMax = iR;
       ++iR;
     }
-    /*for(iR = r.begin() + npitch_min ; iR < r.begin() + npitch_max; iR++){
+    
+    /* Dóna menys probabilitat
+    for(iR = r.begin() + npitch_min ; iR < r.begin() + npitch_max; iR++){
       if(*iR > *iRMax){
         iRMax = iR;
       }
-    } */
+    } */ 
+
     unsigned int lag = iRMax - r.begin();
  
     float pot = 10 * log10(r[0]);
