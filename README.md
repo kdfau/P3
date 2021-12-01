@@ -14,6 +14,8 @@ Ejercicios básicos
   `get_pitch`.
 
    * Complete el cálculo de la autocorrelación e inserte a continuación el código correspondiente.
+	
+	![image](https://user-images.githubusercontent.com/91891272/144233228-c7b6cb81-8640-432f-a91d-0964b50bd62d.png)
 
    * Inserte una gŕafica donde, en un *subplot*, se vea con claridad la señal temporal de un segmento de
      unos 30 ms de un fonema sonoro y su periodo de pitch; y, en otro *subplot*, se vea con claridad la
@@ -21,11 +23,24 @@ Ejercicios básicos
 
 	 NOTA: es más que probable que tenga que usar Python, Octave/MATLAB u otro programa semejante para
 	 hacerlo. Se valorará la utilización de la librería matplotlib de Python.
+	 
+	 ![Autocorrelacio](https://user-images.githubusercontent.com/91891272/144233379-2aeb37a5-9549-4506-b5ab-696fc92c920b.png)
+	 Como vemos el periodo de pitch es de aproximadamente 5 seg. 
+	 La posición del primer máximo secundario es de 20-25 muestras desdel primer maximo. 
 
    * Determine el mejor candidato para el periodo de pitch localizando el primer máximo secundario de la
      autocorrelación. Inserte a continuación el código correspondiente.
-
+	
+	![image](https://user-images.githubusercontent.com/91891272/144234262-47235192-9757-4de9-a435-6eb2f71904dc.png)
+	Lo que vemos comentado fue la primera implementación, más adelante con el objetivo de mejorar los valores obtenidos
+	llegamos al codigo que vemos en la captura. 
+	
    * Implemente la regla de decisión sonoro o sordo e inserte el código correspondiente.
+   
+   	![image](https://user-images.githubusercontent.com/91891272/144234436-c6828c6c-3c6f-4744-9cf6-e5ecde1636d2.png)
+	En los comentarios podemos ver la evolucion desde lo que hicimos en clase hasta la versión final de este codigo. 
+	Pensamos que una buena forma de obtener la diferencia entre tramas sonoras o sordas era usando los umbrales de 
+	autocorrelaciones vistos en clase.
 
 - Una vez completados los puntos anteriores, dispondrá de una primera versión del detector de pitch. El 
   resto del trabajo consiste, básicamente, en obtener las mejores prestaciones posibles con él.
@@ -42,14 +57,34 @@ Ejercicios básicos
 
 	    Recuerde configurar los paneles de datos para que el desplazamiento de ventana sea el adecuado, que
 		en esta práctica es de 15 ms.
-
+		
+		En la primera(empezando por arriba) vemos la potencia de la señal, en la segunda vemos la autocorrelación
+		normalizada, es decir, r[1]/r[0], y en la tercera vemos la autocorrelación en su máximo secundario, es decir, 
+		r[lag]/r[0], finalmente vemos la señal. 
+		
+		De la potencia vemos que se corresponde con los tramos sonoros y sordos pero no es un dato significativo por si sólo. 
+		Las autocorrelaciones, por lo estudiado en teoria, són algo más útiles para encontrar el pitch puesto que las formas
+		de onda se parecen mas cuando son tramos sordos o sonoros. 
+		De aquí sacamos que lo más útil para detectar el pitch es usar todos los parámetros anteriores. 
+		
       - Use el detector de pitch implementado en el programa `wavesurfer` en una señal de prueba y compare
 	    su resultado con el obtenido por la mejor versión de su propio sistema.  Inserte una gráfica
 		ilustrativa del resultado de ambos detectores.
   
+  		
+		![Captura_pitch](https://user-images.githubusercontent.com/91891272/144248470-610754ac-f7db-4fa2-b994-4667e3d57b12.PNG)
+
+  		
+		Como vemos nuestro detector de pitch coincide bastante con el pitch del wavesurfer. La diferencia que vemos
+		es que el nuestro parece empezar 5 segundos antes. 
+		
   * Optimice los parámetros de su sistema de detección de pitch e inserte una tabla con las tasas de error
     y el *score* TOTAL proporcionados por `pitch_evaluate` en la evaluación de la base de datos 
 	`pitch_db/train`..
+
+	![image](https://user-images.githubusercontent.com/91891272/144249118-671c66b3-c6b9-45e7-b08f-966601ff39ab.png)
+	
+	![image](https://user-images.githubusercontent.com/91891272/144249581-6bf1dbea-d0d2-4e61-b389-086e2ae02811.png)
 
    * Inserte una gráfica en la que se vea con claridad el resultado de su detector de pitch junto al del
      detector de Wavesurfer. Aunque puede usarse Wavesurfer para obtener la representación, se valorará
@@ -68,6 +103,8 @@ Ejercicios de ampliación
 
   * Inserte un *pantallazo* en el que se vea el mensaje de ayuda del programa y un ejemplo de utilización
     con los argumentos añadidos.
+	 
+	 ![image](https://user-images.githubusercontent.com/91891272/144250040-2e39f569-bbcc-4d6e-8ae2-411eb74728df.png)
 
 - Implemente las técnicas que considere oportunas para optimizar las prestaciones del sistema de detección
   de pitch.
@@ -75,7 +112,9 @@ Ejercicios de ampliación
   Entre las posibles mejoras, puede escoger una o más de las siguientes:
 
   * Técnicas de preprocesado: filtrado paso bajo, *center clipping*, etc.
+
   * Técnicas de postprocesado: filtro de mediana, *dynamic time warping*, etc.
+
   * Métodos alternativos a la autocorrelación: procesado cepstral, *average magnitude difference function*
     (AMDF), etc.
   * Optimización **demostrable** de los parámetros que gobiernan el detector, en concreto, de los que
@@ -92,8 +131,20 @@ Ejercicios de ampliación
   También se valorará la realización de un estudio de los parámetros involucrados. Por ejemplo, si se opta
   por implementar el filtro de mediana, se valorará el análisis de los resultados obtenidos en función de
   la longitud del filtro.
-   
+  
+  Para mejorar nuestro detector hemos decidido implementar center-clipping como preprocesado y el filtro de mediana como postprocesado. 
+  
+  Aquí podemos ver el código del center-clipping: 
+  
+ ![image](https://user-images.githubusercontent.com/91891272/144264161-61f52754-b397-49d0-8e52-803b9b455087.png)
 
+  
+  Aquí podemos ver el código del filtro de mediana: 
+  
+![image](https://user-images.githubusercontent.com/91891272/144250906-e56ee85a-eb12-4557-9adb-64504f6d9277.png)
+
+  Y aquí vemos los resultados finales obetenidos: 
+  
 Evaluación *ciega* del detector
 -------------------------------
 
