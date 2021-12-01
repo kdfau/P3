@@ -72,11 +72,11 @@ Ejercicios básicos
 		ilustrativa del resultado de ambos detectores.
   
   		
-		![Captura_pitch](https://user-images.githubusercontent.com/91891272/144248470-610754ac-f7db-4fa2-b994-4667e3d57b12.PNG)
+		![image](https://user-images.githubusercontent.com/91891272/144302950-d66cb7ee-a78c-4cad-b9af-0a817059a4ef.png)
+
 
   		
-		Como vemos nuestro detector de pitch coincide bastante con el pitch del wavesurfer. La diferencia que vemos
-		es que el nuestro parece empezar 5 segundos antes. 
+		Como vemos nuestro detector de pitch coincide bastante con el pitch del wavesurfer, aunque no es ideal. 
 		
   * Optimice los parámetros de su sistema de detección de pitch e inserte una tabla con las tasas de error
     y el *score* TOTAL proporcionados por `pitch_evaluate` en la evaluación de la base de datos 
@@ -89,6 +89,8 @@ Ejercicios básicos
    * Inserte una gráfica en la que se vea con claridad el resultado de su detector de pitch junto al del
      detector de Wavesurfer. Aunque puede usarse Wavesurfer para obtener la representación, se valorará
 	 el uso de alternativas de mayor calidad (particularmente Python).
+   
+   ![image](https://user-images.githubusercontent.com/91891272/144305416-68b53512-780f-492b-ba38-753f2033c304.png)
    
 
 Ejercicios de ampliación
